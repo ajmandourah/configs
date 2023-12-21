@@ -1,4 +1,5 @@
---[[ ===================================================================== ==================== READ THIS BEFORE CONTINUING ====================
+--[[
+
 =====================================================================
 
 Kickstart.nvim is *not* a distribution.
@@ -47,6 +48,7 @@ vim.keymap.set("i", "jj" , "<Esc>")
 vim.keymap.set("i", "jj" , "<Esc>")
 vim.keymap.set('n', "<leader>l", "$")
 vim.keymap.set('n', "<leader>h", "_")
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -85,6 +87,16 @@ require('lazy').setup({
   },
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+
+  {
+   "folke/trouble.nvim",
+   dependencies = { "nvim-tree/nvim-web-devicons" },
+   opts = {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+   },
+  },
 
   -- Noice plugin for notifications
   {
@@ -504,7 +516,7 @@ require('which-key').register {
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+  ['<leader>t'] = { name = '[T]rouble', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
@@ -644,5 +656,7 @@ require("noice").setup({
   },
 })
 
+-- keymaps for Trouble 
+vim.keymap.set("n", "<leader>t", function() require("trouble").toggle() end)
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
