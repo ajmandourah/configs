@@ -73,6 +73,14 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
+  -- open help in vertical per default 
+  { 'anuvyklack/help-vsplit.nvim',
+   config = function()
+      require('help-vsplit').setup(
+        {side = "left"}
+      )
+   end
+  },
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
