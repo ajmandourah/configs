@@ -48,7 +48,6 @@ vim.keymap.set("i", "jj" , "<Esc>")
 vim.keymap.set("i", "jj" , "<Esc>")
 vim.keymap.set('n', "<leader>l", "$")
 vim.keymap.set('n', "<leader>h", "_")
-
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -98,26 +97,8 @@ require('lazy').setup({
    },
   },
 
-  -- Noice plugin for notifications
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      -- add any options here
-    },
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
-      }
-  },
 
-  --Codium 
-  'Exafunction/codeium.vim',
-  -- autopair. auto closes brackets and such
+ -- autopair. auto closes brackets and such
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
@@ -231,6 +212,19 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  --Codium 
+  --Gzip required for exraction for now . you should install it and add it to the path 
+  {
+      "Exafunction/codeium.nvim",
+      dependencies = {
+          "nvim-lua/plenary.nvim",
+          "hrsh7th/nvim-cmp",
+      },
+      config = function()
+          require("codeium").setup({
+          })
+      end
+  },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -629,32 +623,14 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
+    { name = 'codeium'},
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
   },
 }
 
--- Noice setup 
 
-require("noice").setup({
-  lsp = {
-    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-    override = {
-      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-      ["vim.lsp.util.stylize_markdown"] = true,
-      ["cmp.entry.get_documentation"] = true,
-    },
-  },
-  -- you can enable a preset for easier configuration
-  presets = {
-    bottom_search = true, -- use a classic bottom cmdline for search
-    command_palette = true, -- position the cmdline and popupmenu together
-    long_message_to_split = true, -- long messages will be sent to a split
-    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = false, -- add a border to hover docs and signature help
-  },
-})
 
 -- keymaps for Trouble 
 vim.keymap.set("n", "<leader>t", function() require("trouble").toggle() end)
