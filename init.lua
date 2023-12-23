@@ -1,4 +1,7 @@
+-- Transparent bg
+-- vim.api.nvim_command('highlight Normal guibg=#2c2620AA')
 -- Keymaps 
+vim.cmd('highlight DiagnosticUnderlineError guifg=#EE4B2B gui=undercurl')
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -8,7 +11,8 @@ vim.keymap.set("i", "jj" , "<Esc>")
 vim.keymap.set('n', "<leader>l", "$")
 vim.keymap.set('n', "<leader>h", "_")
 vim.keymap.set('n', "<leader>q", ":q!<CR>")
-
+vim.keymap.set('n', '<leader>k', ":bnext<CR>")
+vim.keymap.set('n', '<leader>j', ":bprevious<CR>")
 -- Lazy.nvim installation if not installed 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -36,6 +40,83 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
+  
+ {
+    -- Adds git related signs to the gutter, as well as utilities for managing changes
+    'lewis6991/gitsigns.nvim',
+    opts = {
+      -- See `:help gitsigns.txt`
+      signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map({ 'n', 'v' }, ']c', function()
+          if vim.wo.diff then
+            return ']c'
+          end
+          vim.schedule(function()
+            gs.next_hunk()
+          end)
+          return '<Ignore>'
+        end, { expr = true, desc = 'Jump to next hunk' })
+
+        map({ 'n', 'v' }, '[c', function()
+          if vim.wo.diff then
+            return '[c'
+          end
+          vim.schedule(function()
+            gs.prev_hunk()
+          end)
+          return '<Ignore>'
+        end, { expr = true, desc = 'Jump to previous hunk' })
+
+        -- Actions
+        -- visual mode
+        map('v', '<leader>hs', function()
+          gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+        end, { desc = 'stage git hunk' })
+        map('v', '<leader>hr', function()
+          gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+        end, { desc = 'reset git hunk' })
+        -- normal mode
+        map('n', '<leader>hs', gs.stage_hunk, { desc = 'git stage hunk' })
+        map('n', '<leader>hr', gs.reset_hunk, { desc = 'git reset hunk' })
+        map('n', '<leader>hS', gs.stage_buffer, { desc = 'git Stage buffer' })
+        map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'undo stage hunk' })
+        map('n', '<leader>hR', gs.reset_buffer, { desc = 'git Reset buffer' })
+        map('n', '<leader>hp', gs.preview_hunk, { desc = 'preview git hunk' })
+        map('n', '<leader>hb', function()
+          gs.blame_line { full = false }
+        end, { desc = 'git blame line' })
+        map('n', '<leader>hd', gs.diffthis, { desc = 'git diff against index' })
+        map('n', '<leader>hD', function()
+          gs.diffthis '~'
+        end, { desc = 'git diff against last commit' })
+
+        -- Toggles
+        -- map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
+        -- map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
+
+        -- Text object
+        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
+      end,
+    },
+  },
+  
+  
   -- open help in vertical per default 
   { 'anuvyklack/help-vsplit.nvim',
    config = function()
@@ -105,14 +186,18 @@ require('lazy').setup({
   { 'folke/which-key.nvim', opts = {} },
 
   {
-    -- Theme inspired by Atom
     "catppuccin/nvim",
     priority = 1000,
-    config = function()
-    vim.cmd.colorscheme 'catppuccin-mocha'
-    end,
   },
+  
 
+  {
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = {},
+},
+  
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -120,7 +205,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'catppuccin-mocha',
+        theme = 'auto',
         component_separators = '|',
         section_separators = '',
       },
@@ -191,7 +276,7 @@ require('lazy').setup({
   },
 
   {'rcarriga/nvim-notify',
-  config = {stages = "static"},
+  opts = {stages = "static"},
   },
 
   {
@@ -540,7 +625,7 @@ require('mason-lspconfig').setup()
 --  define the property 'filetypes' to the map in question.
 local servers = {
   -- clangd = {},
-  -- gopls = {},
+  gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
@@ -548,10 +633,10 @@ local servers = {
 
   lua_ls = {
     Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
+      workspace = { checkThirdParty = true },
+      telemetry = { enable = true },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-      -- diagnostics = { disable = { 'missing-fields' } },
+      diagnostics = { disable = { 'missing-fields' } },
     },
   },
 }
@@ -636,7 +721,7 @@ cmp.setup {
 }
 
 
-
+vim.cmd.colorscheme 'tokyonight-night'
 -- keymaps for Trouble 
 vim.keymap.set("n", "<leader>t", function() require("trouble").toggle() end)
 -- The line beneath this is called `modeline`. See `:help modeline`
