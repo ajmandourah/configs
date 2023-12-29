@@ -1,7 +1,19 @@
 -- Transparent bg
--- vim.api.nvim_command('highlight Normal guibg=#2c2620AA')
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- Set the &t_Cs option to "\e[4:3m"
+vim.api.nvim_set_option("termguicolors", true)
+-- vim.api.nvim_set_option("t_Cs", "\x1b[4:3m")
+vim.cmd[[let t_Cs = "\e[4:3m"]]
+vim.cmd[[let t_Ce = "\e[4:0m"]]
+
+-- Set the &t_Ce option to "\e[4:0m"
+-- vim.api.nvim_set_option("t_Ce", "\x1b[4:0m")
+
 -- Keymaps 
-vim.cmd('highlight DiagnosticUnderlineError guifg=#EE4B2B gui=undercurl')
+vim.cmd('highlight DiagnosticUnderlineError guifg=#EE4B2B gui=undercurl guisp=#EE4B2B')
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -127,6 +139,13 @@ require('lazy').setup({
   },
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+ 
+  -- leap nvim for speed navigations
+  { 'ggandor/leap.nvim',
+    config = function()
+      require('leap').add_default_mappings()
+    end
+  },
 
   {
    "folke/trouble.nvim",
@@ -137,7 +156,8 @@ require('lazy').setup({
     -- refer to the configuration section below
    },
   },
-
+  
+  {"nvim-tree/nvim-tree.lua"},
 
  -- autopair. auto closes brackets and such
   {
@@ -281,7 +301,6 @@ require('lazy').setup({
 
   {
   "folke/noice.nvim",
-  event = "VeryLazy",
   opts = {
     -- add any options here
   },
@@ -364,8 +383,6 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -378,6 +395,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+require("nvim-tree").setup()
 
 require("noice").setup({
 
@@ -724,6 +742,8 @@ cmp.setup {
 vim.cmd.colorscheme 'tokyonight-night'
 -- keymaps for Trouble 
 vim.keymap.set("n", "<leader>t", function() require("trouble").toggle() end)
+vim.keymap.set('n', "<leader>e", "<cmd>NvimTreeToggle<CR>")
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
+vim.api.nvim_create_user_command("Goimports",'%!goimports',{})
