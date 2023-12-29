@@ -20,11 +20,9 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("i", "jj" , "<Esc>")
 vim.keymap.set("i", "jj" , "<Esc>")
-vim.keymap.set('n', "<leader>l", "$")
-vim.keymap.set('n', "<leader>h", "_")
-vim.keymap.set('n', "<leader>q", ":q!<CR>")
-vim.keymap.set('n', '<leader>k', ":bnext<CR>")
-vim.keymap.set('n', '<leader>j', ":bprevious<CR>")
+vim.keymap.set('n', "<leader>q", ":!")
+vim.keymap.set('n', '<leader>k', "<cmd>bnext<CR>")
+vim.keymap.set('n', '<leader>j', "<cmd>bprevious<CR>")
 -- Lazy.nvim installation if not installed 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
