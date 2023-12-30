@@ -13,7 +13,6 @@ vim.cmd[[let t_Ce = "\e[4:0m"]]
 -- vim.api.nvim_set_option("t_Ce", "\x1b[4:0m")
 
 -- Keymaps 
-vim.cmd('highlight DiagnosticUnderlineError guifg=#EE4B2B gui=undercurl guisp=#EE4B2B')
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -21,8 +20,8 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("i", "jj" , "<Esc>")
 vim.keymap.set("i", "jj" , "<Esc>")
 vim.keymap.set('n', "<leader>q", ":!")
-vim.keymap.set('n', '<leader>k', "<cmd>bnext<CR>")
-vim.keymap.set('n', '<leader>j', "<cmd>bprevious<CR>")
+vim.keymap.set('n', '<S-l>', "<cmd>bnext<CR>")
+vim.keymap.set('n', '<S-h>', "<cmd>bprevious<CR>")
 -- Lazy.nvim installation if not installed 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
