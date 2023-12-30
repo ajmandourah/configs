@@ -648,7 +648,7 @@ local servers = {
 
   lua_ls = {
     Lua = {
-      workspace = { checkThirdParty = true },
+      workspace = { checkThirdParty = false },
       telemetry = { enable = true },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
       diagnostics = { disable = { 'missing-fields' } },
