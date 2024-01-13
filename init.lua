@@ -292,9 +292,9 @@ require('lazy').setup({
       end
   },
 
-  {'rcarriga/nvim-notify',
-  opts = {stages = "static"},
-  },
+  -- {'rcarriga/nvim-notify',
+  -- opts = {stages = "static"},
+  -- },
 
   {
   "folke/noice.nvim",
@@ -307,7 +307,7 @@ require('lazy').setup({
     -- OPTIONAL:
     --   `nvim-notify` is only needed, if you want to use the notification view.
     --   If not available, we use `mini` as the fallback
-    "rcarriga/nvim-notify",
+    -- "rcarriga/nvim-notify",
     }
 }
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -528,6 +528,8 @@ vim.defer_fn(function()
           ['if'] = '@function.inner',
           ['ac'] = '@class.outer',
           ['ic'] = '@class.inner',
+          ['ai'] = '@conditional.outer',
+          ['ii'] = '@conditional.inner',
         },
       },
       move = {
