@@ -395,13 +395,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require("nvim-tree").setup()
 
 require("noice").setup({
-
+  messages = {
+    view = "mini"
+  },
+  views = {
+    mini = {
+      timeout = 5000,
+      },
+  },
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     override = {
-      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-      ["vim.lsp.util.stylize_markdown"] = true,
-      ["cmp.entry.get_documentation"] = true,
+      ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
+      ["vim.lsp.util.stylize_markdown"] = false,
+      ["cmp.entry.get_documentation"] = false,
     },
   },
   -- you can enable a preset for easier configuration
@@ -641,7 +648,12 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
+   clangd = {
+    cmd = {
+      "clangd",
+      "--query-driver=C:\\Program Files\\LLVM\\bin\\clangd.exe",
+    }
+  },
   gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
