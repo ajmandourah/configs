@@ -3,26 +3,18 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- Set the &t_Cs option to "\e[4:3m"
-vim.api.nvim_set_option("termguicolors", true)
--- vim.api.nvim_set_option("t_Cs", "\x1b[4:3m")
-vim.cmd[[let t_Cs = "\e[4:3m"]]
-vim.cmd[[let t_Ce = "\e[4:0m"]]
 
--- Set the &t_Ce option to "\e[4:0m"
--- vim.api.nvim_set_option("t_Ce", "\x1b[4:0m")
-
--- Keymaps 
+-- Keymaps
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("i", "jj" , "<Esc>")
-vim.keymap.set("i", "jj" , "<Esc>")
+vim.keymap.set("i", "jj", "<Esc>")
+vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set('n', "<leader>q", ":!")
 vim.keymap.set('n', '<S-l>', "<cmd>bnext<CR>")
 vim.keymap.set('n', '<S-h>', "<cmd>bprevious<CR>")
--- Lazy.nvim installation if not installed 
+-- Lazy.nvim installation if not installed
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -49,8 +41,8 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
-  
- {
+
+  {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -124,39 +116,53 @@ require('lazy').setup({
       end,
     },
   },
-  
-  
-  -- open help in vertical per default 
-  { 'anuvyklack/help-vsplit.nvim',
-   config = function()
+
+
+  -- open help in vertical per default
+  {
+    'anuvyklack/help-vsplit.nvim',
+    config = function()
       require('help-vsplit').setup(
-        {side = "left"}
+        { side = "left" }
       )
-   end
+    end
   },
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
- 
+
   -- leap nvim for speed navigations
-  { 'ggandor/leap.nvim',
+  {
+    'ggandor/leap.nvim',
     config = function()
       require('leap').add_default_mappings()
     end
   },
 
   {
-   "folke/trouble.nvim",
-   dependencies = { "nvim-tree/nvim-web-devicons" },
-   opts = {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-   },
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
   },
-  
-  {"nvim-tree/nvim-tree.lua"},
 
- -- autopair. auto closes brackets and such
+  { "nvim-tree/nvim-tree.lua" },
+
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      -- configurations go here
+    },
+  },
+  -- autopair. auto closes brackets and such
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
@@ -200,21 +206,21 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',   opts = {} },
 
   {
     "catppuccin/nvim",
     priority = 1000,
   },
-  
+
 
   {
-  "folke/tokyonight.nvim",
-  lazy = false,
-  priority = 1000,
-  opts = {},
-},
-  
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -222,7 +228,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'auto',
+        theme = 'tokyonight',
         component_separators = '|',
         section_separators = '',
       },
@@ -274,22 +280,22 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  --Codium 
-  --Gzip required for exraction for now . you should install it and add it to the path 
+  --Codium
+  --Gzip required for exraction for now . you should install it and add it to the path
   {
-      "Exafunction/codeium.nvim",
-      dependencies = {
-          "nvim-lua/plenary.nvim",
-          "hrsh7th/nvim-cmp",
-      },
-      config = function()
-          require("codeium").setup({
-            messeges = {
-              view_history = false,
-              view_search = false
-            }
-          })
-      end
+    "Exafunction/codeium.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    config = function()
+      require("codeium").setup({
+        messeges = {
+          view_history = false,
+          view_search = false
+        }
+      })
+    end
   },
 
   -- {'rcarriga/nvim-notify',
@@ -297,19 +303,19 @@ require('lazy').setup({
   -- },
 
   {
-  "folke/noice.nvim",
-  opts = {
-    -- add any options here
-  },
-  dependencies = {
-    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-    "MunifTanjim/nui.nvim",
-    -- OPTIONAL:
-    --   `nvim-notify` is only needed, if you want to use the notification view.
-    --   If not available, we use `mini` as the fallback
-    -- "rcarriga/nvim-notify",
+    "folke/noice.nvim",
+    opts = {
+      -- add any options here
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      -- "rcarriga/nvim-notify",
     }
-}
+  }
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -401,7 +407,7 @@ require("noice").setup({
   views = {
     mini = {
       timeout = 5000,
-      },
+    },
   },
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -413,11 +419,11 @@ require("noice").setup({
   },
   -- you can enable a preset for easier configuration
   presets = {
-    bottom_search = false, -- use a classic bottom cmdline for search
-    command_palette = true, -- position the cmdline and popupmenu together
+    bottom_search = false,        -- use a classic bottom cmdline for search
+    command_palette = true,       -- position the cmdline and popupmenu together
     long_message_to_split = true, -- long messages will be sent to a split
-    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = false, -- add a border to hover docs and signature help
+    inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+    lsp_doc_border = false,       -- add a border to hover docs and signature help
   },
 })
 --
@@ -648,11 +654,12 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-   clangd = {
+
+  clangd = {
     cmd = {
-      "clangd",
-      "--query-driver=C:\\Program Files\\LLVM\\bin\\clangd.exe",
-    }
+      "C:\\Program Files\\LLVM\\bin\\clangd.exe",
+      "--query-driver=C:\\Program Files\\LLVM\\bin\\clang.exe",
+    },
   },
   gopls = {},
   -- pyright = {},
@@ -691,6 +698,7 @@ mason_lspconfig.setup_handlers {
       on_attach = on_attach,
       settings = servers[server_name],
       filetypes = (servers[server_name] or {}).filetypes,
+      cmd = (servers[server_name] or {}).cmd
     }
   end,
 }
@@ -716,7 +724,7 @@ cmp.setup {
     ['<S-k>'] = cmp.mapping.select_prev_item(),
     ['<C-k>'] = cmp.mapping.scroll_docs(-4),
     ['<C-j>'] = cmp.mapping.scroll_docs(4),
-    -- changing C-Space as it wont work in windows terminal 
+    -- changing C-Space as it wont work in windows terminal
     ['<C-a>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
@@ -742,7 +750,7 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'codeium'},
+    { name = 'codeium' },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
@@ -751,10 +759,10 @@ cmp.setup {
 
 
 vim.cmd.colorscheme 'tokyonight-night'
--- keymaps for Trouble 
+-- keymaps for Trouble
 vim.keymap.set("n", "<leader>t", function() require("trouble").toggle() end)
 vim.keymap.set('n', "<leader>e", "<cmd>NvimTreeToggle<CR>")
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
-vim.api.nvim_create_user_command("Goimports",'%!goimports',{})
+vim.api.nvim_create_user_command("Goimports", '%!goimports', {})
