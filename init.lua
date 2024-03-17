@@ -209,9 +209,47 @@ require('lazy').setup({
   { 'folke/which-key.nvim',   opts = {} },
 
   {
-    "catppuccin/nvim",
-    priority = 1000,
+  "catppuccin/nvim",
+  lazy = false,
+  name = "catppuccin",
+  opts = {
+    integrations = {
+      aerial = true,
+      alpha = true,
+      cmp = true,
+      dashboard = true,
+      flash = true,
+      gitsigns = true,
+      headlines = true,
+      illuminate = true,
+      indent_blankline = { enabled = true },
+      leap = true,
+      lsp_trouble = true,
+      mason = true,
+      markdown = true,
+      mini = true,
+      native_lsp = {
+        enabled = true,
+        underlines = {
+          errors = { "undercurl" },
+          hints = { "undercurl" },
+          warnings = { "undercurl" },
+          information = { "undercurl" },
+        },
+      },
+      navic = { enabled = true, custom_bg = "lualine" },
+      neotest = true,
+      neotree = true,
+      noice = true,
+      notify = true,
+      semantic_tokens = true,
+      telescope = true,
+      treesitter = true,
+      treesitter_context = true,
+      which_key = true,
+    },
   },
+},
 
 
   {
@@ -758,7 +796,42 @@ cmp.setup {
 }
 
 
-vim.cmd.colorscheme 'tokyonight-night'
+
+require("catppuccin").setup {
+    color_overrides = {
+      all = {
+        rosewater = "#F5B8AB",
+        flamingo = "#F29D9D",
+        pink = "#AD6FF7",
+        mauve = "#FF8F40",
+        red = "#E66767",
+        maroon = "#EB788B",
+        peach = "#FAB770",
+        yellow = "#FACA64",
+        green = "#70CF67",
+        teal = "#4CD4BD",
+        sky = "#61BDFF",
+        sapphire = "#4BA8FA",
+        blue = "#00BFFF",
+        lavender = "#00BBCC",
+        text = "#C1C9E6",
+        subtext1 = "#A3AAC2",
+        subtext0 = "#8E94AB",
+        overlay2 = "#7D8296",
+        overlay1 = "#676B80",
+        overlay0 = "#464957",
+        surface2 = "#3A3D4A",
+        surface1 = "#2F313D",
+        surface0 = "#1D1E29",
+        base = "#0b0b12",
+        mantle = "#11111a",
+        crust = "#191926",
+      },
+    }
+}
+
+vim.cmd.colorscheme 'catppuccin'
+
 -- keymaps for Trouble
 vim.keymap.set("n", "<leader>t", function() require("trouble").toggle() end)
 vim.keymap.set('n', "<leader>e", "<cmd>NvimTreeToggle<CR>")
