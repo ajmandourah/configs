@@ -218,6 +218,7 @@ require('lazy').setup({
   },
 
 
+
   {
     "folke/tokyonight.nvim",
     lazy = false,
@@ -232,7 +233,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'tokyonight',
+        theme = 'auto',
         component_separators = '|',
         section_separators = '',
       },
@@ -662,6 +663,7 @@ local servers = {
   clangd = {
     cmd = {
       "C:\\Program Files\\LLVM\\bin\\clangd.exe",
+      "--fallback-style=webkit",
       "--query-driver=C:\\Program Files\\LLVM\\bin\\clang.exe",
     },
   },
@@ -824,8 +826,8 @@ require("catppuccin").setup {
       surface2 = "#505469",
       surface1 = "#3e4255",
       surface0 = "#2c2f40",
-      base = "#1a1c2a",
-      mantle = "#141620",
+      base = "#12131D",
+      mantle = "#10121b",
       crust = "#0e0f16",
     },
     mocha = {
