@@ -202,6 +202,8 @@ require('lazy').setup({
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
+
+
     },
   },
 
@@ -663,8 +665,13 @@ local servers = {
   clangd = {
     cmd = {
       "C:\\Program Files\\LLVM\\bin\\clangd.exe",
-      "--fallback-style=webkit",
-      "--query-driver=C:\\Program Files\\LLVM\\bin\\clang.exe",
+      "--query-driver=C:\\Program Files\\LLVM\\bin\\clang.exe",  
+      "--background-index",
+      "--clang-tidy",
+      "--header-insertion=iwyu",
+      "--completion-style=detailed",
+      "--function-arg-placeholders",
+      "--fallback-style=llvm",
     },
   },
   gopls = {},
@@ -756,10 +763,10 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'codeium' },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
+    { name = 'codeium' },
   },
 }
 
