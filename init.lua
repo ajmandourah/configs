@@ -405,7 +405,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-require("nvim-tree").setup()
+require("nvim-tree").setup(
+  {
+    view = { adaptive_size = true },
+  }
+)
 
 require("noice").setup({
   messages = {
@@ -665,7 +669,7 @@ local servers = {
   clangd = {
     cmd = {
       "C:\\Program Files\\LLVM\\bin\\clangd.exe",
-      "--query-driver=C:\\Program Files\\LLVM\\bin\\clang.exe",  
+      "--query-driver=C:\\Program Files\\LLVM\\bin\\clang.exe",
       "--background-index",
       "--clang-tidy",
       "--header-insertion=iwyu",
